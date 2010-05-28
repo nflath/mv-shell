@@ -36,6 +36,17 @@
   (string-match "\\([^/ \t\r\n]+\\)[\t\r\n ]*$" full-path)
   (match-string 1 full-path))
 
+(defun mv-shell-get-buffers-visiting-files-in-directory (directory)
+  "Returns all buffers visiting files in the given directory."
+  (remove-if-not (lambda (a) a)
+                 (mapcar
+                  (lambda (buffer)
+                    (if (and (buffer-file-name buffer)
+                             (string-match (regexp-opt (list (expand-file-name directory)))
+                                           (expand-file-name (buffer-file-name buffer))))
+                        buffer))
+                  (buffer-list))))
+
 (defun mv-shell-check-string (input-str)
   "Given an input string, checks if it is a 'mv' command.  If so,
 and there is a buffer visiting the file being moved, rename the
@@ -53,8 +64,18 @@ location.  Requires default-directory to be correct."
                        (not (file-directory-p from)))
               (set-buffer (get-file-buffer from))
               (rename-buffer (path-to-filename to))
-              (set-visited-file-name to)
-              (save-buffer)))))))
+              (set-visited-file-name to))
+            (when (and (file-directory-p from))
+              (mapcar (lambda (buffer)
+                        (let* ((buffer-name (expand-file-name (buffer-file-name buffer)))
+                               (buffer-after-file (replace-regexp-in-string (regexp-opt (list (expand-file-name from)))
+                                                                            ""
+                                                                            buffer-name)))
+                          (set-buffer buffer)
+                          (set-visited-file-name (concat to "/" buffer-after-file))))
+                      (mv-shell-get-buffers-visiting-files-in-directory from)
+                      ))
+            )))))
 
 (defun mv-shell-mode (&optional arg)
   "With a positive argument, turns on mv-shell-mode.  With a
