@@ -1,26 +1,45 @@
-;; mv-shell.el - keep buffers in sync with filename throughout 'mv'
-;; command in shell-mode.
-;;
+;;; mv-shell.el - keep buffers in sync with filename throughout 'mv'commands in shell-mode.
+
 ;; Copyright (C) 2010 Nathaniel Flath <nflath@gmail.com>
-;; Version: 0.1
-;;
-;; Commentary
+
+;; Author: Nathaniel Flath <nflath@gmail.com>
+;; URL: http://github.com/nflath/mv-shell
+;; Version: 1.0
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
 ;; mv-shell integrates with shell-mode in order to keep buffers in sync when
 ;; moving files around.  If you enter a 'mv' command on a file that has a buffer opened,
 ;; the buffer is also renamed and moved to the location the file is moved to.
-;;
+
+;;; Installation
+
 ;; To install, put this file somewhere in your load-path and add the following
 ;; to your .emacs file:
 ;;
 ;; (require 'mv-shell)
 ;; (mv-shell-mode 1)
 ;;
+
+;;; License:
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License
+;; as published by the Free Software Foundation; either version 3
+;; of the License, or (at your option) any later version.
 ;;
-;; Changelog:
-;; 0.1
-;;  * Initial Release
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 ;;
-;; Code:
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Code:
 
 (defvar mv-shell-mv-regex "^mv[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]*$"
   "Regular expression matching 'mv' commands.  The first
@@ -122,3 +141,4 @@ commands."
       (message "mv-shell mode disabled"))))
 
 (provide 'mv-shell)
+;;; mv-shell.el ends here
