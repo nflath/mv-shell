@@ -11,7 +11,8 @@
 ;;; Commentary:
 ;; mv-shell integrates with shell-mode in order to keep buffers in sync when
 ;; moving files around.  If you enter a 'mv' command on a file that has a buffer opened,
-;; the buffer is also renamed and moved to the location the file is moved to.
+;; the buffer is also renamed and moved to the location the file is moved to.  Buffers are
+;; also moved when a directory they are in is moved.
 
 ;;; Installation
 
@@ -46,10 +47,7 @@
   parenthetical subexpression must match the file being moved;
   the second the location it is being moved to." )
 
-(defvar mv-shell-mode nil
-  "Whether mv-shell-mode is enabled or not.")
-
-(defun path-to-filename (full-path)
+(defun mv-shell-path-to-filename (full-path)
   "Returns just the filename in a path.  [EG, (path-to-filename
 '/foo/bar/baz' returns 'baz'."
   (string-match "\\([^/ \t\r\n]+\\)[\t\r\n ]*$" full-path)
@@ -69,8 +67,8 @@
 (defun mv-shell-path-to-file (filename)
   "Works as path-to-file, except if the filename ends with / the / is stripped first."
   (if (string-match "/$" filename)
-      (path-to-filename (substring filename 0 (1- (length filename))))
-    (path-to-filename filename)))
+      (mv-shell-path-to-filename (substring filename 0 (1- (length filename))))
+    (mv-shell-path-to-filename filename)))
 
 (defun mv-shell-check-string (input-str)
   "Given an input string, checks if it is a 'mv' command.  If so,
@@ -104,6 +102,7 @@ location.  Requires default-directory to be correct."
                       (mv-shell-get-buffers-visiting-files-in-directory from)
                       ))))))))
 
+;;;###autoload
 (defun mv-shell-mode (&optional arg)
   "With a positive argument, turns on mv-shell-mode.  With a
 negative argument, turns off mv-shell-mode.  With no argument,
@@ -123,6 +122,7 @@ toggles mv-shell-mode."
        (remove-hook 'comint-input-filter-functions 'mv-shell-check-string)
        (message "mv-shell mode disabled")))))
 
+;;;###autoload
 (define-minor-mode mv-shell-mode
   "Minor mode to keep buffers in sync across shell-mode 'mv'
 commands."
