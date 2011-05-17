@@ -1,8 +1,8 @@
 ;;; mv-shell.el - keep buffers in sync with filename throughout 'mv'commands in shell-mode.
 
-;; Copyright (C) 2010 Nathaniel Flath <nflath@gmail.com>
+;; Copyright (C) 2010 Nathaniel Flath <flat0103@gmail.com>
 
-;; Author: Nathaniel Flath <nflath@gmail.com>
+;; Author: Nathaniel Flath <fla0103@gmail.com>
 ;; URL: http://github.com/nflath/mv-shell
 ;; Version: 1.0
 
