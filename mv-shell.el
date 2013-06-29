@@ -48,6 +48,13 @@
   parenthetical subexpression must match the file being moved;
   the second the location it is being moved to." )
 
+(defun mv-shell-string-trim (str)
+      "Trim leading and tailing whitespace from STR."
+      (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
+                           str)
+        (setq str (replace-match "" t t str)))
+      str)
+
 (defun mv-shell-path-to-filename (full-path)
   "Returns just the filename in a path.  [EG, (path-to-filename
 '/foo/bar/baz' returns 'baz'."
@@ -77,7 +84,7 @@ and there is a buffer visiting the file being moved, rename the
 buffer to the new file name and set it's location to the new
 location.  Requires default-directory to be correct."
   (save-window-excursion
-    (let ((input-str (string-trim input-str)))
+    (let ((input-str (mv-shell-string-trim input-str)))
       (if (string-match mv-shell-mv-regex input-str)
           (let* ((from (match-string 1 input-str))
                  (to-raw (match-string 2 input-str))
@@ -127,8 +134,8 @@ toggles mv-shell-mode."
 (define-minor-mode mv-shell-mode
   "Minor mode to keep buffers in sync across shell-mode 'mv'
 commands."
-  :init-value nil
-  :global t
+  :init-value t
+  :global nil
   :group 'mv-shell
 
   (if mv-shell-mode
@@ -141,5 +148,6 @@ commands."
       (remove-hook 'comint-input-filter-functions 'mv-shell-check-string)
       (message "mv-shell mode disabled"))))
 
+(mv-shell-mode t)
 (provide 'mv-shell)
 ;;; mv-shell.el ends here
