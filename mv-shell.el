@@ -110,26 +110,6 @@ location.  Requires default-directory to be correct."
                       ))))))))
 
 ;;;###autoload
-(defun mv-shell-mode (&optional arg)
-  "With a positive argument, turns on mv-shell-mode.  With a
-negative argument, turns off mv-shell-mode.  With no argument,
-toggles mv-shell-mode."
-  (interactive)
-  (cond
-    ((or (and arg (> arg 0))
-         (and (not arg) (not mv-shell-mode)))
-      (progn
-        (setq mv-shell-mode t)
-        (add-hook 'comint-input-filter-functions 'mv-shell-check-string)
-        (message "mv-shell mode enabled")))
-    ((or (and arg (< arg 0))
-         (and (not arg) mv-shell-mode))
-     (progn
-       (setq mv-shell-mode nil)
-       (remove-hook 'comint-input-filter-functions 'mv-shell-check-string)
-       (message "mv-shell mode disabled")))))
-
-;;;###autoload
 (define-minor-mode mv-shell-mode
   "Minor mode to keep buffers in sync across shell-mode 'mv'
 commands."
