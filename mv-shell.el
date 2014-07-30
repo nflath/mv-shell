@@ -4,7 +4,7 @@
 
 ;; Author: Nathaniel Flath <fla0103@gmail.com>
 ;; URL: http://github.com/nflath/mv-shell
-;; Version: 1.0
+;; Version: 1.1
 
 ;; This file is not part of GNU Emacs.
 
@@ -21,7 +21,6 @@
 ;; to your .emacs file:
 ;;
 ;; (require 'mv-shell)
-;; (mv-shell-mode 1)
 ;;
 
 ;;; License:
