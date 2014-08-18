@@ -42,10 +42,22 @@
 
 ;;; Code:
 
-(defvar mv-shell-mv-regex "^mv[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]*$"
-  "Regular expression matching 'mv' commands.  The first
-  parenthetical subexpression must match the file being moved;
-  the second the location it is being moved to." )
+(defvar mv-shell-mv-commands
+  (concat "\\(?:"
+	  "\\(?:git\\|svn\\|bzr\\|hg\\|darcs\\)[ \t\r\n]+mv" "\\|"
+	  "\\(?:svn\\|bzr\\|hg\\|darcs\\)[ \t\r\n]+move"     "\\|"
+	  "\\(?:svn\\|bzr\\|hg\\)[ \t\r\n]+rename"           "\\|"
+	  "svn[ \t\r\n]+ren"                                 "\\|"
+	  "mv\\)")
+  "Regular expression matching all kinds of 'mv' commands. This
+includes the Bash mv command as well as its VCS couterparts such
+as 'git mv' or 'svn rename'. Version control systems supported
+are Git, SVN, Bazaar, Mercurial and Darcs.")
+
+(defvar mv-shell-mv-regex (concat "^" mv-shell-mv-commands "[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]+\\([^ \t\r\n]+\\)[ \t\r\n]*$")
+  "Regular expression matching a 'mv' command with its arguments.
+The first parenthetical subexpression must match the file being
+moved; the second the location it is being moved to." )
 
 (defun mv-shell-string-trim (str)
       "Trim leading and tailing whitespace from STR."
