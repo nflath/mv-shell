@@ -1,4 +1,4 @@
-;;; mv-shell.el - keep buffers in sync with filename throughout 'mv'commands in shell-mode.
+;;; mv-shell.el --- Keep buffers in sync with filename throughout 'mv'commands in shell-mode.
 
 ;; Copyright (C) 2010 Nathaniel Flath <flat0103@gmail.com>
 
